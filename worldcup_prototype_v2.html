@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FIFA 世界杯 2026 · Alph.AI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e1015;--card:#181b22;--card2:#1e2129;--border:#2a2d38;
+  --text:#e8eaf0;--muted:#5a5f72;--muted2:#8a8fa8;
+  --green:#22c55e;--red:#ef4444;--blue:#3b82f6;--yellow:#eab308;
+  --teal:#14b8a6;--indigo:#6366f1;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;font-size:14px;min-height:100vh;}
+
+/* ── TOP NAV ── */
+.topnav{display:flex;align-items:center;gap:0;background:#13151c;border-bottom:1px solid var(--border);padding:0 20px;height:52px;}
+.topnav .logo{font-size:18px;font-weight:700;color:var(--indigo);margin-right:32px;letter-spacing:-0.5px;}
+.topnav .navitem{padding:0 16px;height:52px;display:flex;align-items:center;color:var(--muted2);cursor:pointer;font-size:13px;border-bottom:2px solid transparent;transition:all .15s;}
+.topnav .navitem:hover{color:var(--text);}
+.topnav .navitem.active{color:var(--text);border-bottom-color:var(--indigo);}
+.topnav .spacer{flex:1;}
+.topnav .wallet{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;color:var(--muted2);cursor:pointer;}
+
+/* ── SPORT NAV ── */
+.sportnav{background:#13151c;border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:4px;height:44px;}
+.sporttab{padding:4px 14px;border-radius:20px;cursor:pointer;font-size:13px;color:var(--muted2);transition:all .15s;}
+.sporttab:hover{color:var(--text);}
+.sporttab.active{background:var(--indigo);color:#fff;}
+
+/* ── LIVE BADGE ── */
+.live-badge{display:inline-block;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:8px;vertical-align:middle;letter-spacing:0.5px;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;height:calc(100vh - 96px);}
+.left{flex:1;overflow-y:auto;padding:0 0 40px 0;}
+.right{width:320px;border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;}
+
+/* ── LEFT HEADER ── */
+.league-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 10px;}
+.league-title{font-size:26px;font-weight:700;}
+.filter-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--muted2);cursor:pointer;font-size:18px;}
+.mode-tabs{display:flex;gap:8px;padding:0 20px 12px;}
+.mode-tab{padding:5px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:500;border:none;}
+.mode-tab.active{background:var(--indigo);color:#fff;}
+.mode-tab.inactive{background:var(--card2);color:var(--muted2);}
+.right-controls{display:flex;align-items:center;gap:10px;}
+.search-btn{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:16px;padding:4px;}
+.week-sel{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:5px 10px;color:var(--text);font-size:13px;cursor:pointer;}
+
+/* ── COLUMN HEADERS ── */
+.col-headers{display:grid;grid-template-columns:1fr 160px 160px 160px 100px;padding:0 20px 6px;color:var(--muted);font-size:12px;}
+.col-h{text-align:center;}
+
+/* ── DATE GROUP ── */
+.date-group{padding:10px 20px 4px;}
+.date-label{font-size:13px;font-weight:600;color:var(--muted2);margin-bottom:8px;}
+
+/* ── MATCH CARD ── */
+.match-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin:0 20px 8px;overflow:hidden;transition:border-color .15s;}
+.match-card:hover{border-color:#3a3f52;}
+.match-meta{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 0;color:var(--muted);font-size:12px;}
+.match-vol{color:var(--muted2);}
+.view-btn{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:3px 10px;color:var(--muted2);font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;}
+.view-btn:hover{color:var(--text);}
+.match-rows{display:grid;grid-template-columns:1fr 160px 160px 160px;padding:8px 14px 10px;gap:0;}
+.team-col{display:flex;flex-direction:column;gap:10px;justify-content:center;}
+.team-row{display:flex;align-items:center;gap:8px;}
+.team-logo{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.team-info .name{font-size:13px;font-weight:600;}
+.team-info .record{font-size:11px;color:var(--muted);margin-top:1px;}
+.draw-row{display:flex;align-items:center;height:24px;margin:4px 0;}
+
+/* odds columns */
+.odds-col{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;padding:0 6px;}
+.odds-col.spread-col{position:relative;}
+.odds-btn{
+  width:100%;padding:7px 8px;border-radius:7px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:600;transition:all .15s;
+  background:var(--card2);color:var(--muted2);
+}
+.odds-btn:hover{background:#252836;}
+.odds-btn.selected-home{background:#7f1d1d;color:#fca5a5;}
+.odds-btn.selected-away{background:#1e3a5f;color:#93c5fd;}
+.odds-btn.selected-draw{background:#2d2208;color:#fde68a;}
+.odds-btn.selected-over{background:#14532d;color:#86efac;}
+.odds-btn.selected-under{background:#7f1d1d;color:#fca5a5;}
+.odds-btn .label{font-size:11px;}
+.odds-btn .pct{font-size:13px;}
+.odds-draw{
+  width:100%;padding:5px 8px;border-radius:7px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:500;background:var(--card2);color:var(--muted2);transition:all .15s;
+}
+.odds-draw:hover{background:#252836;}
+.odds-draw.selected-draw{background:#2d2208;color:#fde68a;}
+
+/* spread slider */
+.spread-slider{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 0;font-size:11px;color:var(--muted);}
+.spread-values{display:flex;gap:16px;align-items:center;}
+.spread-val{cursor:pointer;padding:2px 4px;border-radius:4px;}
+.spread-val:hover{color:var(--text);}
+.spread-val.active-spread{color:var(--text);font-weight:600;}
+.spread-arrow{color:var(--indigo);font-size:10px;}
+.spread-nav{cursor:pointer;color:var(--muted);font-size:12px;padding:2px 4px;}
+.spread-nav:hover{color:var(--text);}
+
+/* ── RIGHT PANEL ── */
+.panel{padding:16px;}
+.panel-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.panel-logo{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--card2);}
+.panel-match{font-size:12px;color:var(--muted2);}
+.panel-selected{font-size:14px;font-weight:700;margin-top:2px;}
+.panel-selected.green{color:var(--green);}
+.panel-selected.red{color:var(--red);}
+.panel-selected.blue{color:var(--blue);}
+.panel-selected.yellow{color:var(--yellow);}
+
+.panel-tabs{display:flex;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);}
+.panel-tab{padding:8px 0;margin-right:20px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted2);border-bottom:2px solid transparent;transition:all .15s;}
+.panel-tab.active{color:var(--text);border-bottom-color:var(--text);}
+.panel-tab:hover{color:var(--text);}
+.panel-type{margin-left:auto;display:flex;align-items:center;gap:4px;background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:4px 10px;cursor:pointer;font-size:12px;color:var(--muted2);}
+.panel-type:hover{color:var(--text);}
+
+.outcome-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.outcome-btn{
+  padding:10px 12px;border-radius:8px;border:none;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;font-weight:600;transition:all .15s;
+  background:var(--card2);color:var(--muted2);
+}
+.outcome-btn:hover{background:#252836;}
+.outcome-btn.active-green{background:#166534;color:#fff;}
+.outcome-btn.active-red{background:#991b1b;color:#fff;}
+.outcome-btn.active-blue{background:#1e40af;color:#fff;}
+.outcome-btn.active-yellow{background:#713f12;color:#fde68a;}
+.outcome-pct{font-size:14px;}
+
+/* limit order fields */
+.field-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.field-label{font-size:13px;color:var(--muted2);}
+.price-ctrl{display:flex;align-items:center;gap:0;background:var(--card2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.price-ctrl button{background:none;border:none;color:var(--muted2);cursor:pointer;padding:7px 12px;font-size:16px;transition:all .15s;}
+.price-ctrl button:hover{color:var(--text);background:#252836;}
+.price-val{padding:7px 14px;font-size:14px;font-weight:600;color:var(--text);min-width:60px;text-align:center;}
+
+.shares-row{margin-bottom:12px;}
+.shares-input-wrap{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:6px;}
+.shares-input{background:none;border:none;color:var(--text);font-size:14px;width:80px;text-align:right;outline:none;}
+.shares-btns{display:flex;gap:6px;}
+.shares-btn{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--muted2);cursor:pointer;font-size:12px;transition:all .15s;}
+.shares-btn:hover{color:var(--text);border-color:#4a4f62;}
+
+/* market order */
+.amount-wrap{margin-bottom:8px;}
+.amount-label{font-size:13px;color:var(--muted2);margin-bottom:4px;display:flex;justify-content:space-between;}
+.amount-cash{font-size:11px;color:var(--muted);}
+.amount-display{font-size:32px;font-weight:700;color:var(--muted);text-align:right;padding:8px 0;}
+.amount-display.has-amount{color:var(--text);}
+.amount-presets{display:flex;gap:6px;margin-top:6px;}
+.preset-btn{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:7px 4px;color:var(--muted2);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;text-align:center;}
+.preset-btn:hover{color:var(--text);border-color:#4a4f62;}
+
+.expiry-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.expiry-label{font-size:13px;color:var(--muted);}
+.expiry-val{font-size:13px;color:var(--muted2);cursor:pointer;display:flex;align-items:center;gap:4px;}
+.expiry-val:hover{color:var(--text);}
+
+.summary-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.summary-label{font-size:14px;font-weight:500;}
+.summary-val{font-size:15px;font-weight:700;color:var(--indigo);}
+.payout-val{font-size:15px;font-weight:700;color:var(--green);}
+.payout-icon{font-size:16px;}
+.info-icon{color:var(--muted);font-size:12px;margin-left:3px;cursor:pointer;}
+
+.submit-btn{
+  width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;
+  font-size:15px;font-weight:700;background:#3b82f6;color:#fff;
+  transition:all .15s;margin-top:4px;margin-bottom:10px;
+}
+.submit-btn:hover{background:#2563eb;}
+.submit-btn.deposit{background:#3b82f6;}
+.terms{font-size:11px;color:var(--muted);text-align:center;}
+.terms a{color:var(--muted2);cursor:pointer;text-decoration:underline;}
+
+/* empty state */
+.no-selection{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;color:var(--muted);text-align:center;padding:20px;}
+.no-selection .icon{font-size:40px;margin-bottom:12px;opacity:0.4;}
+.no-selection p{font-size:13px;line-height:1.5;}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px;}
+
+/* ── TOP NAV EXTRAS ── */
+.logo-wrap{display:flex;align-items:center;gap:8px;margin-right:24px;flex-shrink:0;}
+.logo-icon{width:32px;height:32px;background:var(--indigo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;}
+.logo-text{font-size:16px;font-weight:800;color:var(--text);letter-spacing:0.5px;}
+.topnav-search{display:flex;align-items:center;gap:8px;background:#1e2129;border:1px solid var(--border);border-radius:8px;padding:6px 14px;min-width:220px;}
+.topnav-search input{background:none;border:none;color:var(--muted2);font-size:13px;outline:none;width:170px;}
+.topnav-search input::placeholder{color:var(--muted);}
+.top-recharge-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:8px;}
+.top-recharge-btn:hover{background:#16a34a;}
+.balance-item{display:flex;flex-direction:column;align-items:flex-end;margin-left:20px;flex-shrink:0;}
+.balance-label{font-size:11px;color:var(--muted2);}
+.balance-val{font-size:14px;font-weight:700;color:var(--text);}
+.nav-icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;font-size:15px;margin-left:14px;flex-shrink:0;}
+.nav-icon-btn:hover{border-color:var(--muted2);color:var(--text);}
+
+
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo-wrap">
+    <div class="logo-icon">α</div>
+    <div class="logo-text">ALPH.AI</div>
+  </div>
+  <div class="topnav-search">
+    <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search Token/Wallet"/>
+  </div>
+  <div class="navitem" onclick="window.location.href='worldcup_leaderboard.html'">排行榜</div>
+  <div class="spacer"></div>
+  <button class="top-recharge-btn">充值</button>
+  <div class="balance-item">
+    <span class="balance-label">总余额</span>
+    <span class="balance-val">$186.89</span>
+  </div>
+  <div class="balance-item">
+    <span class="balance-label">可用资金</span>
+    <span class="balance-val">$186.89</span>
+  </div>
+  <div class="nav-icon-btn">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+  </div>
+</div>
+
+<!-- SPORT NAV -->
+<div class="sportnav">
+  <div class="sporttab">All</div>
+  <div class="sporttab">Live</div>
+  <div class="sporttab active">⚽ 世界杯 2026</div>
+  <div class="sporttab">体育</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- LEFT: MATCH LIST -->
+  <div class="left">
+    <div style="display:flex;align-items:center;justify-content:flex-end;padding:10px 20px 6px;gap:8px;">
+      <span style="font-size:12px;color:var(--muted2);cursor:pointer;">小组赛 阶段 ·</span>
+      <button class="filter-btn" style="padding:4px 8px;font-size:14px;">⚙</button>
+    </div>
+
+    <!-- Column headers -->
+    <div style="display:grid;grid-template-columns:1fr 160px 160px 160px;padding:0 20px 6px;color:#5a5f72;font-size:12px;">
+      <div></div>
+      <div style="text-align:center;">胜负线</div>
+      <div style="text-align:center;">让分</div>
+      <div style="text-align:center;">总分</div>
+    </div>
+
+    <!-- DATE: Jun 11 -->
+    <div class="date-group"><div class="date-label">周四, 6月 11</div></div>
+
+    <!-- Match 1 -->
+    <div class="match-card" id="match-1">
+      <div class="match-meta">
+        <span>下午 9:00 &nbsp;<span class="match-vol">$1.24M 交易量</span><span class="live-badge">LIVE</span></span>
+        <button class="view-btn" onclick="goDetail('1')">21 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <!-- Teams -->
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇲🇽</div>
+            <div class="team-info"><div class="name">墨西哥</div><div class="record">CONCACAF #2</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇪🇨</div>
+            <div class="team-info"><div class="name">厄瓜多尔</div><div class="record">CONMEBOL #5</div></div>
+          </div>
+        </div>
+        <!-- Moneyline -->
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','墨西哥','🇲🇽','match-1','40%',0.40)" data-mid="1" data-type="ml-home">
+            <span class="label">MEX</span><span class="pct">40%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-1','28%',0.28)" data-mid="1" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">28%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','厄瓜多尔','🇪🇨','match-1','32%',0.32)" data-mid="1" data-type="ml-away">
+            <span class="label">ECU</span><span class="pct">32%</span>
+          </button>
+        </div>
+        <!-- Spread -->
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','墨西哥 -0.5','🇲🇽','match-1','38%',0.38)" data-mid="1" data-type="sp-home">
+            <span class="label">MEX -0.5</span><span class="pct">38%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','厄瓜多尔 +0.5','🇪🇨','match-1','62%',0.62)" data-mid="1" data-type="sp-away">
+            <span class="label">ECU +0.5</span><span class="pct">62%</span>
+          </button>
+        </div>
+        <!-- Total -->
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-1','46%',0.46)" data-mid="1" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">46%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-1','54%',0.54)" data-mid="1" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">54%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match 2 -->
+    <div class="match-card" id="match-2">
+      <div style="padding:8px 14px 0;"><span class="live-badge" style="background:var(--indigo);">33 d 23 h 59 m</span></div>
+      <div class="match-meta">
+        <span>下午 9:00 &nbsp;<span class="match-vol">$862K 交易量</span></span>
+        <button class="view-btn" onclick="goDetail('2')">18 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇺🇸</div>
+            <div class="team-info"><div class="name">美国</div><div class="record">CONCACAF #1</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇸🇷</div>
+            <div class="team-info"><div class="name">苏里南</div><div class="record">CONCACAF #6</div></div>
+          </div>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','美国','🇺🇸','match-2','71%',0.71)" data-mid="2" data-type="ml-home">
+            <span class="label">USA</span><span class="pct">71%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-2','17%',0.17)" data-mid="2" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">17%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','苏里南','🇸🇷','match-2','12%',0.12)" data-mid="2" data-type="ml-away">
+            <span class="label">SUR</span><span class="pct">12%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','美国 -1.5','🇺🇸','match-2','55%',0.55)" data-mid="2" data-type="sp-home">
+            <span class="label">USA -1.5</span><span class="pct">55%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','苏里南 +1.5','🇸🇷','match-2','45%',0.45)" data-mid="2" data-type="sp-away">
+            <span class="label">SUR +1.5</span><span class="pct">45%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-2','58%',0.58)" data-mid="2" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">58%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-2','42%',0.42)" data-mid="2" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">42%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATE: Jun 12 -->
+    <div class="date-group"><div class="date-label">周五, 6月 12</div></div>
+
+    <!-- Match 3 -->
+    <div class="match-card" id="match-3">
+      <div style="padding:8px 14px 0;"><span class="live-badge" style="background:var(--indigo);">33 d 23 h 59 m</span></div>
+      <div class="match-meta">
+        <span>上午 3:00 &nbsp;<span class="match-vol">$3.51M 交易量</span></span>
+        <button class="view-btn" onclick="goDetail('3')">24 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇧🇷</div>
+            <div class="team-info"><div class="name">巴西</div><div class="record">CONMEBOL #1</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇿🇦</div>
+            <div class="team-info"><div class="name">南非</div><div class="record">CAF #3</div></div>
+          </div>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','巴西','🇧🇷','match-3','78%',0.78)" data-mid="3" data-type="ml-home">
+            <span class="label">BRA</span><span class="pct">78%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-3','14%',0.14)" data-mid="3" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">14%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','南非','🇿🇦','match-3','8%',0.08)" data-mid="3" data-type="ml-away">
+            <span class="label">RSA</span><span class="pct">8%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','巴西 -1.5','🇧🇷','match-3','61%',0.61)" data-mid="3" data-type="sp-home">
+            <span class="label">BRA -1.5</span><span class="pct">61%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','南非 +1.5','🇿🇦','match-3','39%',0.39)" data-mid="3" data-type="sp-away">
+            <span class="label">RSA +1.5</span><span class="pct">39%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-3','63%',0.63)" data-mid="3" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">63%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-3','37%',0.37)" data-mid="3" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">37%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match 4 -->
+    <div class="match-card" id="match-4">
+      <div style="padding:8px 14px 0;"><span class="live-badge" style="background:var(--indigo);">33 d 23 h 59 m</span></div>
+      <div class="match-meta">
+        <span>上午 6:00 &nbsp;<span class="match-vol">$2.87M 交易量</span></span>
+        <button class="view-btn" onclick="goDetail('4')">22 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇫🇷</div>
+            <div class="team-info"><div class="name">法国</div><div class="record">UEFA #1</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇨🇲</div>
+            <div class="team-info"><div class="name">喀麦隆</div><div class="record">CAF #2</div></div>
+          </div>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','法国','🇫🇷','match-4','82%',0.82)" data-mid="4" data-type="ml-home">
+            <span class="label">FRA</span><span class="pct">82%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-4','12%',0.12)" data-mid="4" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">12%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','喀麦隆','🇨🇲','match-4','6%',0.06)" data-mid="4" data-type="ml-away">
+            <span class="label">CMR</span><span class="pct">6%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','法国 -1.5','🇫🇷','match-4','67%',0.67)" data-mid="4" data-type="sp-home">
+            <span class="label">FRA -1.5</span><span class="pct">67%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','喀麦隆 +1.5','🇨🇲','match-4','33%',0.33)" data-mid="4" data-type="sp-away">
+            <span class="label">CMR +1.5</span><span class="pct">33%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-4','71%',0.71)" data-mid="4" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">71%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-4','29%',0.29)" data-mid="4" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">29%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match 5 -->
+    <div class="match-card" id="match-5">
+      <div style="padding:8px 14px 0;"><span class="live-badge" style="background:var(--indigo);">33 d 23 h 59 m</span></div>
+      <div class="match-meta">
+        <span>上午 9:00 &nbsp;<span class="match-vol">$4.12M 交易量</span></span>
+        <button class="view-btn" onclick="goDetail('5')">26 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇦🇷</div>
+            <div class="team-info"><div class="name">阿根廷</div><div class="record">CONMEBOL #2</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇸🇦</div>
+            <div class="team-info"><div class="name">沙特阿拉伯</div><div class="record">AFC #3</div></div>
+          </div>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','阿根廷','🇦🇷','match-5','74%',0.74)" data-mid="5" data-type="ml-home">
+            <span class="label">ARG</span><span class="pct">74%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-5','15%',0.15)" data-mid="5" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">15%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','沙特阿拉伯','🇸🇦','match-5','11%',0.11)" data-mid="5" data-type="ml-away">
+            <span class="label">KSA</span><span class="pct">11%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','阿根廷 -1.5','🇦🇷','match-5','57%',0.57)" data-mid="5" data-type="sp-home">
+            <span class="label">ARG -1.5</span><span class="pct">57%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','沙特 +1.5','🇸🇦','match-5','43%',0.43)" data-mid="5" data-type="sp-away">
+            <span class="label">KSA +1.5</span><span class="pct">43%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-5','54%',0.54)" data-mid="5" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">54%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-5','46%',0.46)" data-mid="5" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">46%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATE: Jun 13 -->
+    <div class="date-group"><div class="date-label">周六, 6月 13</div></div>
+
+    <!-- Match 6 -->
+    <div class="match-card" id="match-6">
+      <div style="padding:8px 14px 0;"><span class="live-badge" style="background:var(--indigo);">33 d 23 h 59 m</span></div>
+      <div class="match-meta">
+        <span>上午 3:00 &nbsp;<span class="match-vol">$5.34M 交易量</span></span>
+        <button class="view-btn" onclick="goDetail('6')">31 &nbsp;比赛视图 ›</button>
+      </div>
+      <div class="match-rows">
+        <div class="team-col">
+          <div class="team-row">
+            <div class="team-logo">🇪🇸</div>
+            <div class="team-info"><div class="name">西班牙</div><div class="record">UEFA #3</div></div>
+          </div>
+          <div class="draw-row" style="padding-left:32px;"><span style="font-size:11px;color:var(--muted);">平局</span></div>
+          <div class="team-row">
+            <div class="team-logo">🇯🇵</div>
+            <div class="team-info"><div class="name">日本</div><div class="record">AFC #1</div></div>
+          </div>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','西班牙','🇪🇸','match-6','62%',0.62)" data-mid="6" data-type="ml-home">
+            <span class="label">ESP</span><span class="pct">62%</span>
+          </button>
+          <button class="odds-draw" onclick="selectOdds(this,'draw','平局','⚖️','match-6','20%',0.20)" data-mid="6" data-type="ml-draw">
+            <span class="label">DRAW</span><span class="pct">20%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','日本','🇯🇵','match-6','18%',0.18)" data-mid="6" data-type="ml-away">
+            <span class="label">JPN</span><span class="pct">18%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'home','西班牙 -0.5','🇪🇸','match-6','58%',0.58)" data-mid="6" data-type="sp-home">
+            <span class="label">ESP -0.5</span><span class="pct">58%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'away','日本 +0.5','🇯🇵','match-6','42%',0.42)" data-mid="6" data-type="sp-away">
+            <span class="label">JPN +0.5</span><span class="pct">42%</span>
+          </button>
+        </div>
+        <div class="odds-col">
+          <button class="odds-btn" onclick="selectOdds(this,'over','大于 2.5','📈','match-6','52%',0.52)" data-mid="6" data-type="tot-over">
+            <span class="label">O 2.5</span><span class="pct">52%</span>
+          </button>
+          <button class="odds-btn" onclick="selectOdds(this,'under','小于 2.5','📉','match-6','48%',0.48)" data-mid="6" data-type="tot-under">
+            <span class="label">U 2.5</span><span class="pct">48%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- RIGHT: TRADE PANEL -->
+  <div class="right">
+    <div class="panel" id="trade-panel">
+      <div id="panel-empty" class="no-selection">
+        <div class="icon">⚽</div>
+        <p>点击左侧赔率<br/>开始押注</p>
+      </div>
+      <div id="panel-content" style="display:none;">
+        <!-- Header -->
+        <div class="panel-header">
+          <div class="panel-logo" id="p-logo">🏆</div>
+          <div>
+            <div class="panel-match" id="p-match">赛事名称</div>
+            <div class="panel-selected" id="p-selected">选中结果</div>
+          </div>
+        </div>
+        <!-- Tabs -->
+        <div class="panel-tabs">
+          <div class="panel-tab active" id="tab-buy" onclick="switchBuySell('buy')">买入</div>
+          <div class="panel-tab" id="tab-sell" onclick="switchBuySell('sell')">卖出</div>
+          <div class="panel-type" id="order-type-btn" onclick="toggleOrderType()">
+            <span id="order-type-label">盘口</span> ▾
+          </div>
+        </div>
+        <!-- Outcome buttons -->
+        <div class="outcome-btns">
+          <button class="outcome-btn" id="btn-yes" onclick="selectOutcome('yes')">
+            <span id="btn-yes-label">Yes</span>
+            <span class="outcome-pct" id="btn-yes-pct">50%</span>
+          </button>
+          <button class="outcome-btn" id="btn-no" onclick="selectOutcome('no')">
+            <span id="btn-no-label">No</span>
+            <span class="outcome-pct" id="btn-no-pct">50%</span>
+          </button>
+        </div>
+
+        <!-- LIMIT ORDER FIELDS -->
+        <div id="limit-fields" style="display:none;">
+          <div class="field-row">
+            <span class="field-label">限价</span>
+            <div class="price-ctrl">
+              <button onclick="adjustPrice(-1)">−</button>
+              <div class="price-val" id="price-display">50¢</div>
+              <button onclick="adjustPrice(1)">+</button>
+            </div>
+          </div>
+          <div class="shares-row">
+            <div class="field-row" style="margin-bottom:6px;">
+              <span class="field-label">份额</span>
+              <div class="shares-input-wrap" style="width:auto;flex:none;min-width:100px;">
+                <input class="shares-input" id="shares-input" type="number" value="0" min="0" oninput="calcFromShares()"/>
+              </div>
+            </div>
+            <div class="shares-btns">
+              <button class="shares-btn" onclick="adjustShares(-100)">-100</button>
+              <button class="shares-btn" onclick="adjustShares(-10)">-10</button>
+              <button class="shares-btn" onclick="adjustShares(10)">+10</button>
+              <button class="shares-btn" onclick="adjustShares(100)">+100</button>
+            </div>
+          </div>
+          <div class="expiry-row">
+            <span class="expiry-label">过期</span>
+            <span class="expiry-val">绝不 ▾</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">总计</span>
+            <span class="summary-val" id="total-display">$0</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">赢取 <span class="info-icon">ⓘ</span></span>
+            <span><span class="payout-icon">💵</span> <span class="payout-val" id="payout-display">$0</span></span>
+          </div>
+          <button class="submit-btn" id="submit-btn" onclick="submitOrder()">下买单</button>
+          <div class="terms">订单簿将在 03:00 GMT+8 清空 ⓘ</div>
+          <div class="terms" style="margin-top:6px;">交易即表示你同意 <a>使用条款</a>.</div>
+        </div>
+
+        <!-- MARKET ORDER FIELDS -->
+        <div id="market-fields">
+          <div class="amount-wrap">
+            <div class="amount-label">
+              <span>金额</span>
+              <span class="amount-cash">$0.00 现金</span>
+            </div>
+            <div class="amount-display" id="amount-display">$0</div>
+            <div class="amount-presets">
+              <button class="preset-btn" onclick="addAmount(1)">+$1</button>
+              <button class="preset-btn" onclick="addAmount(5)">+$5</button>
+              <button class="preset-btn" onclick="addAmount(10)">+$10</button>
+              <button class="preset-btn" onclick="addAmount(100)">+$100</button>
+            </div>
+          </div>
+          <button class="submit-btn deposit" style="margin-top:20px;" onclick="submitOrder()">充值</button>
+          <div class="terms" style="margin-top:6px;">交易即表示你同意 <a>使用条款</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /right -->
+
+</div><!-- /layout -->
+
+<script>
+// STATE
+let state = {
+  currentMatch: null,
+  currentType: null,   // 'home','away','draw','over','under'
+  currentLabel: '',
+  currentLogo: '',
+  currentMatchName: '',
+  currentPct: 0.5,
+  selectedOutcome: 'yes',
+  orderMode: 'market', // 'limit' or 'market'
+  buySell: 'buy',
+  price: 50,   // in cents
+  shares: 0,
+  amount: 0,
+};
+
+function selectOdds(btn, type, label, logo, matchId, pctStr, pctNum) {
+  // Clear all buttons in the same column within same match
+  const card = document.getElementById(matchId);
+  const colType = btn.dataset.type.split('-')[0]; // ml, sp, tot
+  card.querySelectorAll('[data-type]').forEach(b => {
+    if (b.dataset.type.startsWith(colType)) {
+      b.className = b.tagName === 'BUTTON' && b.classList.contains('odds-draw')
+        ? 'odds-draw' : 'odds-btn';
+    }
+  });
+
+  // Highlight selected
+  const colorMap = {home:'selected-home', away:'selected-away', draw:'selected-draw', over:'selected-over', under:'selected-under'};
+  const cls = btn.classList.contains('odds-draw') ? `odds-draw ${colorMap[type]}` : `odds-btn ${colorMap[type]}`;
+  btn.className = cls;
+
+  // Get match name from card
+  const teams = card.querySelectorAll('.team-info .name');
+  const matchName = teams.length >= 2 ? `${teams[0].textContent} vs ${teams[1].textContent}` : matchId;
+
+  // Update state
+  state.currentMatch = matchId;
+  state.currentType = type;
+  state.currentLabel = label;
+  state.currentLogo = logo;
+  state.currentMatchName = matchName;
+  state.currentPct = pctNum;
+  state.price = Math.round(pctNum * 100);
+  state.shares = 0;
+  state.amount = 0;
+
+  // Show panel
+  showPanel(type, label, logo, matchName, pctStr, pctNum);
+}
+
+function showPanel(type, label, logo, matchName, pctStr, pctNum) {
+  document.getElementById('panel-empty').style.display = 'none';
+  document.getElementById('panel-content').style.display = 'block';
+
+  // Header
+  document.getElementById('p-logo').textContent = logo;
+  document.getElementById('p-match').textContent = matchName;
+
+  const sel = document.getElementById('p-selected');
+  sel.textContent = label;
+  const colorMap = {home:'green', away:'blue', draw:'yellow', over:'green', under:'red'};
+  sel.className = `panel-selected ${colorMap[type] || 'green'}`;
+
+  // Outcome buttons
+  const pct2 = Math.round((1 - pctNum) * 100);
+  const pct1 = Math.round(pctNum * 100);
+
+  const btnYes = document.getElementById('btn-yes');
+  const btnNo = document.getElementById('btn-no');
+  const activeMap = {home:'active-green', away:'active-blue', draw:'active-yellow', over:'active-green', under:'active-red'};
+  const activeClass = activeMap[type] || 'active-green';
+
+  btnYes.className = `outcome-btn ${activeClass}`;
+  btnNo.className = 'outcome-btn';
+  document.getElementById('btn-yes-label').textContent = label.split(' ')[0];
+  document.getElementById('btn-yes-pct').textContent = pct1 + '%';
+  document.getElementById('btn-no-label').textContent = 'No';
+  document.getElementById('btn-no-pct').textContent = pct2 + '%';
+  state.selectedOutcome = 'yes';
+
+  // Price
+  document.getElementById('price-display').textContent = state.price + '¢';
+  updateCalc();
+}
+
+function selectOutcome(which) {
+  state.selectedOutcome = which;
+  const type = state.currentType || 'home';
+  const activeMap = {home:'active-green', away:'active-blue', draw:'active-yellow', over:'active-green', under:'active-red'};
+  if (which === 'yes') {
+    document.getElementById('btn-yes').className = `outcome-btn ${activeMap[type]}`;
+    document.getElementById('btn-no').className = 'outcome-btn';
+    state.price = Math.round(state.currentPct * 100);
+  } else {
+    document.getElementById('btn-yes').className = 'outcome-btn';
+    document.getElementById('btn-no').className = 'outcome-btn active-red';
+    state.price = Math.round((1 - state.currentPct) * 100);
+  }
+  document.getElementById('price-display').textContent = state.price + '¢';
+  updateCalc();
+}
+
+function adjustPrice(delta) {
+  state.price = Math.max(1, Math.min(99, state.price + delta));
+  document.getElementById('price-display').textContent = state.price + '¢';
+  updateCalc();
+}
+
+function adjustShares(delta) {
+  const input = document.getElementById('shares-input');
+  state.shares = Math.max(0, (state.shares || 0) + delta);
+  input.value = state.shares;
+  updateCalc();
+}
+
+function calcFromShares() {
+  state.shares = parseFloat(document.getElementById('shares-input').value) || 0;
+  updateCalc();
+}
+
+function updateCalc() {
+  const priceDecimal = state.price / 100;
+  const total = (state.shares * priceDecimal).toFixed(2);
+  const payout = state.shares.toFixed(2);
+  document.getElementById('total-display').textContent = '$' + total;
+  document.getElementById('payout-display').textContent = '$' + payout;
+}
+
+function addAmount(n) {
+  state.amount += n;
+  const d = document.getElementById('amount-display');
+  d.textContent = '$' + state.amount;
+  d.className = state.amount > 0 ? 'amount-display has-amount' : 'amount-display';
+}
+
+function toggleOrderType() {
+  state.orderMode = state.orderMode === 'market' ? 'limit' : 'market';
+  document.getElementById('order-type-label').textContent = state.orderMode === 'limit' ? '限价' : '盘口';
+  document.getElementById('limit-fields').style.display = state.orderMode === 'limit' ? 'block' : 'none';
+  document.getElementById('market-fields').style.display = state.orderMode === 'market' ? 'block' : 'none';
+}
+
+function switchBuySell(which) {
+  state.buySell = which;
+  document.getElementById('tab-buy').className = `panel-tab ${which==='buy'?'active':''}`;
+  document.getElementById('tab-sell').className = `panel-tab ${which==='sell'?'active':''}`;
+  document.getElementById('submit-btn').textContent = which === 'buy' ? '下买单' : '下卖单';
+}
+
+function submitOrder() {
+  if (state.shares === 0 && state.orderMode === 'limit') {
+    alert('请输入份额');
+    return;
+  }
+  alert(`订单已提交！\n${state.currentLabel}\n份额: ${state.shares}\n总计: $${(state.shares * state.price / 100).toFixed(2)}`);
+}
+
+function goDetail(id) {
+  window.location.href = 'worldcup_detail.html';
+}
+
+// Auto-load 西班牙赢 on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const btn = document.querySelector('#match-6 [data-type="ml-home"]');
+  if (btn) {
+    selectOdds(btn, 'home', '西班牙 赢', '🇪🇸', 'match-6', '62%', 0.62);
+  }
+});
+
+function switchMode(mode) {
+  if (mode === '趣味投注') alert('趣味投注功能即将上线');
+}
+</script>
+</body>
+</html>
