@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>排行榜 · Alph.AI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0e1015;--card:#181b22;--card2:#1e2129;--border:#2a2d38;--text:#e8eaf0;--muted:#5a5f72;--muted2:#8a8fa8;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--yellow:#eab308;--indigo:#6366f1;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;font-size:14px;min-height:100vh;padding-bottom:70px;}
+
+/* ── TOP NAV ── */
+.topnav{display:flex;align-items:center;background:#13151c;border-bottom:1px solid var(--border);padding:0 20px;height:52px;}
+.logo-wrap{display:flex;align-items:center;gap:8px;margin-right:24px;flex-shrink:0;}
+.logo-icon{width:32px;height:32px;background:var(--indigo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;}
+.logo-text{font-size:16px;font-weight:800;letter-spacing:.5px;}
+.topnav-search{display:flex;align-items:center;gap:8px;background:#1e2129;border:1px solid var(--border);border-radius:8px;padding:6px 14px;min-width:220px;}
+.topnav-search input{background:none;border:none;color:var(--muted2);font-size:13px;outline:none;width:170px;}
+.topnav-search input::placeholder{color:var(--muted);}
+.navitem{padding:0 14px;height:52px;display:flex;align-items:center;color:var(--muted2);cursor:pointer;font-size:13px;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.navitem:hover{color:var(--text);}
+.navitem.active{color:var(--text);border-bottom-color:var(--indigo);}
+.spacer{flex:1;}
+.top-recharge-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:8px;}
+.balance-item{display:flex;flex-direction:column;align-items:flex-end;margin-left:20px;flex-shrink:0;}
+.balance-label{font-size:11px;color:var(--muted2);}
+.balance-val{font-size:14px;font-weight:700;}
+.nav-icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;margin-left:14px;flex-shrink:0;}
+
+/* ── MAIN LAYOUT ── */
+.lb-layout{display:flex;gap:20px;padding:28px 24px 0;max-width:1280px;margin:0 auto;}
+.lb-main{flex:1;min-width:0;}
+.lb-sidebar{width:280px;flex-shrink:0;}
+
+/* ── PAGE TITLE & FILTERS ── */
+.lb-title{font-size:34px;font-weight:800;margin-bottom:20px;}
+.lb-controls{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.time-tabs{display:flex;gap:6px;}
+.time-tab{padding:7px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card2);color:var(--muted2);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;}
+.time-tab:hover{color:var(--text);}
+.time-tab.active{background:var(--card);border-color:#4a4f62;color:var(--text);font-weight:600;}
+.category-filter{margin-left:auto;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;color:var(--muted2);cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;}
+.category-filter:hover{color:var(--text);}
+.lb-search{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:4px;}
+.lb-search input{background:none;border:none;color:var(--text);font-size:13px;outline:none;width:100%;}
+.lb-search input::placeholder{color:var(--muted);}
+
+/* ── TABLE HEADER ── */
+.lb-hdr{display:grid;grid-template-columns:50px 1fr 180px 160px;padding:10px 16px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;}
+.lh-col{display:flex;align-items:center;gap:4px;}
+.lh-col.right{justify-content:flex-end;}
+.lh-sortable{cursor:pointer;}
+.lh-sortable:hover{color:var(--muted2);}
+.lh-active{color:var(--text);border-bottom:2px solid var(--text);padding-bottom:2px;}
+.sc{font-size:10px;}
+
+/* ── LEADERBOARD ROW ── */
+.lb-row{display:grid;grid-template-columns:50px 1fr 180px 160px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;}
+.lb-row:hover{background:rgba(255,255,255,.02);}
+.rank-num{font-size:14px;font-weight:700;color:var(--muted2);}
+.rank-num.top3{color:var(--text);}
+.user-cell{display:flex;align-items:center;gap:12px;}
+.avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;}
+.avatar-1{background:linear-gradient(135deg,#f59e0b,#f97316);}
+.avatar-2{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.avatar-3{background:linear-gradient(135deg,#ec4899,#f43f5e);}
+.avatar-4{background:linear-gradient(135deg,#3b82f6,#06b6d4);}
+.avatar-5{background:linear-gradient(135deg,#10b981,#34d399);}
+.avatar-6{background:linear-gradient(135deg,#f59e0b,#84cc16);}
+.avatar-me{background:linear-gradient(135deg,#6366f1,#a78bfa);}
+.user-info{}
+.user-name{font-size:14px;font-weight:600;}
+.user-addr{font-size:13px;font-weight:600;font-family:monospace;word-break:break-all;}
+.pnl-cell{text-align:right;font-size:14px;font-weight:700;color:var(--green);}
+.pnl-cell.neg{color:var(--red);}
+.vol-cell{text-align:right;font-size:13px;color:var(--muted2);}
+
+/* ── STICKY BOTTOM ── */
+.sticky-me{position:fixed;bottom:0;left:0;right:0;background:#13151c;border-top:1px solid var(--border);padding:12px 24px;z-index:100;}
+.sticky-inner{display:grid;grid-template-columns:50px 1fr 180px 160px;align-items:center;max-width:1280px;margin:0 auto;}
+.sticky-rank{font-size:13px;color:var(--muted2);}
+.sticky-user{display:flex;align-items:center;gap:12px;}
+.sticky-name{font-size:14px;font-weight:600;}
+.sticky-pnl{text-align:right;font-size:14px;font-weight:700;color:var(--green);}
+.sticky-vol{text-align:right;font-size:13px;color:var(--muted2);}
+
+/* ── SIDEBAR ── */
+.sidebar-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:sticky;top:20px;}
+.sidebar-title{font-size:16px;font-weight:700;margin-bottom:16px;}
+.winner-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.winner-item:last-child{border-bottom:none;}
+.w-rank{font-size:13px;color:var(--muted);min-width:16px;margin-top:2px;}
+.w-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;margin-top:1px;}
+.w-av-1{background:linear-gradient(135deg,#f59e0b,#f97316);}
+.w-av-2{background:linear-gradient(135deg,#10b981,#34d399);}
+.w-av-3{background:linear-gradient(135deg,#10b981,#3b82f6);}
+.w-av-4{background:linear-gradient(135deg,#6366f1,#a78bfa);}
+.w-av-5{background:linear-gradient(135deg,#f59e0b,#f97316);}
+.w-av-6{background:linear-gradient(135deg,#3b82f6,#06b6d4);}
+.w-av-7{background:linear-gradient(135deg,#ec4899,#f97316);}
+.w-av-8{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.w-info{flex:1;min-width:0;}
+.w-header{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+.w-name{font-size:13px;font-weight:600;white-space:nowrap;}
+.w-match{font-size:12px;color:var(--muted2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px;}
+.w-amounts{font-size:12px;color:var(--muted2);}
+.w-amounts span{color:var(--green);font-weight:600;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px;}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo-wrap">
+    <div class="logo-icon">α</div>
+    <div class="logo-text">ALPH.AI</div>
+  </div>
+  <div class="topnav-search">
+    <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search Token/Wallet"/>
+  </div>
+  <div class="navitem" onclick="location.href='worldcup_prototype.html'">战壕</div>
+  <div class="navitem" onclick="location.href='worldcup_prototype.html'">预测</div>
+  <div class="navitem">聪明钱</div>
+  <div class="navitem">跟单</div>
+  <div class="navitem" onclick="location.href='worldcup_portfolio.html'">我的</div>
+  <div class="spacer"></div>
+  <button class="top-recharge-btn">充值</button>
+  <div class="balance-item"><span class="balance-label">总余额</span><span class="balance-val">$20.37</span></div>
+  <div class="balance-item"><span class="balance-label">可用资金</span><span class="balance-val">$19.37</span></div>
+  <div class="nav-icon-btn">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="lb-layout">
+
+  <!-- Left: Leaderboard -->
+  <div class="lb-main">
+    <div class="lb-title">排行榜</div>
+
+    <div class="lb-controls">
+      <div class="time-tabs">
+        <div class="time-tab" onclick="switchTime('今日',this)">今日</div>
+        <div class="time-tab" onclick="switchTime('每周',this)">每周</div>
+        <div class="time-tab active" onclick="switchTime('每月',this)">每月</div>
+        <div class="time-tab" onclick="switchTime('全部',this)">全部</div>
+      </div>
+      <div class="category-filter">
+        全部分类
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+
+    <div class="lb-search">
+      <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="按名称搜索"/>
+    </div>
+
+    <div class="lb-hdr">
+      <div class="lh-col"></div>
+      <div class="lh-col">盘口 <span class="sc">◇</span></div>
+      <div class="lh-col right lh-sortable">
+        <span class="lh-active">盈亏</span>
+      </div>
+      <div class="lh-col right lh-sortable">交易量</div>
+    </div>
+
+    <!-- Rank 1 -->
+    <div class="lb-row">
+      <div class="rank-num top3">1</div>
+      <div class="user-cell">
+        <div class="avatar avatar-1"></div>
+        <div class="user-info">
+          <div class="user-addr" style="font-size:12px;">0×492442EaB586F242B53bDa933fD5dE859c8A3782-176631754...</div>
+        </div>
+      </div>
+      <div class="pnl-cell">+$2,079,098</div>
+      <div class="vol-cell">$6,966,195</div>
+    </div>
+
+    <!-- Rank 2 -->
+    <div class="lb-row">
+      <div class="rank-num top3">2</div>
+      <div class="user-cell">
+        <div class="avatar avatar-2"></div>
+        <div class="user-info"><div class="user-name">bossoskil1</div></div>
+      </div>
+      <div class="pnl-cell">+$1,939,022</div>
+      <div class="vol-cell">$16,947,637</div>
+    </div>
+
+    <!-- Rank 3 -->
+    <div class="lb-row">
+      <div class="rank-num top3">3</div>
+      <div class="user-cell">
+        <div class="avatar avatar-3"></div>
+        <div class="user-info"><div class="user-name">Countryside</div></div>
+      </div>
+      <div class="pnl-cell">+$1,805,822</div>
+      <div class="vol-cell">$20,777,731</div>
+    </div>
+
+    <!-- Rank 4 -->
+    <div class="lb-row">
+      <div class="rank-num">4</div>
+      <div class="user-cell">
+        <div class="avatar avatar-4"></div>
+        <div class="user-info"><div class="user-name">Pestle</div></div>
+      </div>
+      <div class="pnl-cell">+$1,756,508</div>
+      <div class="vol-cell">$20,781</div>
+    </div>
+
+    <!-- Rank 5 -->
+    <div class="lb-row">
+      <div class="rank-num">5</div>
+      <div class="user-cell">
+        <div class="avatar avatar-5"></div>
+        <div class="user-info"><div class="user-name">LaBradfordSmith22</div></div>
+      </div>
+      <div class="pnl-cell">+$1,595,646</div>
+      <div class="vol-cell">$20,224,774</div>
+    </div>
+
+    <!-- Rank 6 -->
+    <div class="lb-row">
+      <div class="rank-num">6</div>
+      <div class="user-cell">
+        <div class="avatar avatar-6"></div>
+        <div class="user-info"><div class="user-name">Oddn</div></div>
+      </div>
+      <div class="pnl-cell">+$985,634</div>
+      <div class="vol-cell">$65,761</div>
+    </div>
+
+    <!-- Rank 7 -->
+    <div class="lb-row">
+      <div class="rank-num">7</div>
+      <div class="user-cell">
+        <div class="avatar" style="background:linear-gradient(135deg,#14b8a6,#3b82f6);"></div>
+        <div class="user-info"><div class="user-name">Crypto_Analyst</div></div>
+      </div>
+      <div class="pnl-cell">+$743,210</div>
+      <div class="vol-cell">$4,231,088</div>
+    </div>
+
+    <!-- Rank 8 -->
+    <div class="lb-row">
+      <div class="rank-num">8</div>
+      <div class="user-cell">
+        <div class="avatar" style="background:linear-gradient(135deg,#f43f5e,#fb923c);"></div>
+        <div class="user-info"><div class="user-name">SportsOracle</div></div>
+      </div>
+      <div class="pnl-cell">+$612,445</div>
+      <div class="vol-cell">$8,102,330</div>
+    </div>
+
+    <!-- More rows faded -->
+    <div class="lb-row" style="opacity:.5;">
+      <div class="rank-num">9</div>
+      <div class="user-cell">
+        <div class="avatar" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);"></div>
+        <div class="user-info"><div class="user-name">PredictionKing</div></div>
+      </div>
+      <div class="pnl-cell">+$488,991</div>
+      <div class="vol-cell">$3,400,000</div>
+    </div>
+
+    <div class="lb-row" style="opacity:.4;">
+      <div class="rank-num">10</div>
+      <div class="user-cell">
+        <div class="avatar" style="background:linear-gradient(135deg,#0ea5e9,#6366f1);"></div>
+        <div class="user-info"><div class="user-name">MarketWhiz99</div></div>
+      </div>
+      <div class="pnl-cell">+$312,007</div>
+      <div class="vol-cell">$1,900,500</div>
+    </div>
+
+  </div><!-- /lb-main -->
+
+  <!-- Right: Sidebar -->
+  <div class="lb-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">本月最高赢利</div>
+
+      <div class="winner-item">
+        <span class="w-rank">1</span>
+        <div class="w-avatar w-av-1"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">LaBradfordS...</span><span class="w-match">RC Strasbourg Als...</span></div>
+          <div class="w-amounts">$707,853 → <span>$1,408,529</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">2</span>
+        <div class="w-avatar w-av-2"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">Countryside</span><span class="w-match">Nuggets vs. Timberwol...</span></div>
+          <div class="w-amounts">$343,106 → <span>$994,296</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">3</span>
+        <div class="w-avatar w-av-3"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">Countryside</span><span class="w-match">Chelsea FC vs. Nottin...</span></div>
+          <div class="w-amounts">$332,836 → <span>$976,027</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">4</span>
+        <div class="w-avatar w-av-4"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">0×2a2C53b...</span><span class="w-match">76ers vs. Celtics</span></div>
+          <div class="w-amounts">$893,586 → <span>$1,528,298</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">5</span>
+        <div class="w-avatar w-av-5"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">LaBradfordS...</span><span class="w-match">Raptors vs. Cavalie...</span></div>
+          <div class="w-amounts">$822,350 → <span>$1,456,106</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">6</span>
+        <div class="w-avatar w-av-6"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">Lakersfan111</span><span class="w-match">Timberwolves vs. Sp...</span></div>
+          <div class="w-amounts">$280,290 → <span>$894,881</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">7</span>
+        <div class="w-avatar w-av-7"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">surfandturf</span><span class="w-match">76ers vs. Celtics</span></div>
+          <div class="w-amounts">$556,258 → <span>$1,140,036</span></div>
+        </div>
+      </div>
+
+      <div class="winner-item">
+        <span class="w-rank">8</span>
+        <div class="w-avatar w-av-8"></div>
+        <div class="w-info">
+          <div class="w-header"><span class="w-name">bossoskil1</span><span class="w-match">Counter-Strike: G2 vs F...</span></div>
+          <div class="w-amounts">$365,507 → <span>$882,009</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /sidebar -->
+
+</div><!-- /lb-layout -->
+
+<!-- Sticky bottom: user rank -->
+<div class="sticky-me">
+  <div class="sticky-inner">
+    <div class="sticky-rank">143,298</div>
+    <div class="sticky-user">
+      <div class="avatar avatar-me" style="width:32px;height:32px;"></div>
+      <span class="sticky-name">Wenniegogogo <span style="color:var(--muted2);font-size:12px;">(你)</span></span>
+    </div>
+    <div class="sticky-pnl">+$1</div>
+    <div class="sticky-vol">$2</div>
+  </div>
+</div>
+
+<script>
+function switchTime(t, el) {
+  document.querySelectorAll('.time-tab').forEach(tb => tb.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body></html>
