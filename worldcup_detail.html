@@ -658,7 +658,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
       </div>
       <div class="outcome-btns">
         <button class="outcome-btn active-green" id="btn-yes" onclick="selectOutcome('yes')">
-          <span id="btn-yes-label">ESP</span>
+          <span>Yes</span>
           <span class="outcome-pct" id="btn-yes-pct">62%</span>
         </button>
         <button class="outcome-btn" id="btn-no" onclick="selectOutcome('no')">
@@ -679,7 +679,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
           <button class="preset-btn" onclick="addAmount(10)">+$10</button>
           <button class="preset-btn" onclick="addAmount(100)">+$100</button>
         </div>
-        <button class="submit-btn" id="submit-btn">充值</button>
+        <button class="submit-btn" id="submit-btn">买入 Yes</button>
         <div class="terms">交易即表示你同意 <a>使用条款</a>.</div>
       </div>
 
@@ -813,7 +813,6 @@ function updatePanel(label,logo,pct,type){
   const activeMap={home:'active-green',away:'active-blue',draw:'active-yellow',over:'active-green',under:'active-red'};
   btnYes.className='outcome-btn '+(activeMap[type]||'active-green');
   btnNo.className='outcome-btn';
-  document.getElementById('btn-yes-label').textContent=label.split(' ')[0];
   document.getElementById('btn-yes-pct').textContent=yp+'%';
   document.getElementById('btn-no-pct').textContent=np+'%';
   document.getElementById('price-display').textContent=ps.price+'¢';
@@ -821,13 +820,19 @@ function updatePanel(label,logo,pct,type){
 }
 
 // ── PANEL CONTROLS ──
+function updateSubmitBtn(){
+  const action=ps.buySell==='buy'?'买入':'卖出';
+  const side=ps.outcome==='yes'?'Yes':'No';
+  const sb=document.getElementById('submit-btn');
+  const lb=document.getElementById('limit-submit-btn');
+  if(sb)sb.textContent=action+' '+side;
+  if(lb)lb.textContent='下'+action.slice(1)+'单';
+}
 function switchBuySell(w){
   ps.buySell=w;
   document.getElementById('tab-buy').className='panel-tab '+(w==='buy'?'active':'');
   document.getElementById('tab-sell').className='panel-tab '+(w==='sell'?'active':'');
-  const sb=document.getElementById('submit-btn'),lb=document.getElementById('limit-submit-btn');
-  if(sb)sb.textContent=w==='buy'?'充值':'卖出';
-  if(lb)lb.textContent=w==='buy'?'下买单':'下卖单';
+  updateSubmitBtn();
 }
 function toggleOrderMode(){
   ps.mode=ps.mode==='market'?'limit':'market';
@@ -848,6 +853,7 @@ function selectOutcome(w){
     ps.price=Math.round((1-ps.pct)*100);
   }
   document.getElementById('price-display').textContent=ps.price+'¢';
+  updateSubmitBtn();
   updateCalc();
 }
 function addAmount(n){

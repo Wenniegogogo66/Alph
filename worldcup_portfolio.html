@@ -7,7 +7,7 @@
 :root{--bg:#0e1015;--card:#181b22;--card2:#1e2129;--border:#2a2d38;--text:#e8eaf0;--muted:#5a5f72;--muted2:#8a8fa8;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--yellow:#eab308;--indigo:#6366f1;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;font-size:14px;min-height:100vh;}
 
-/* ── TOP NAV ── */
+/* TOP NAV */
 .topnav{display:flex;align-items:center;background:#13151c;border-bottom:1px solid var(--border);padding:0 20px;height:52px;}
 .logo-wrap{display:flex;align-items:center;gap:8px;margin-right:24px;flex-shrink:0;}
 .logo-icon{width:32px;height:32px;background:var(--indigo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;}
@@ -25,10 +25,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .balance-val{font-size:14px;font-weight:700;}
 .nav-icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;margin-left:14px;flex-shrink:0;}
 
-/* ── PAGE CONTENT ── */
+/* PAGE */
 .page{max-width:960px;margin:0 auto;padding:32px 24px 100px;}
 
-/* ── PORTFOLIO CARD ── */
+/* PORTFOLIO CARD */
 .portfolio-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:28px;display:grid;grid-template-columns:1fr auto;row-gap:0;column-gap:20px;}
 .pf-label{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted2);margin-bottom:10px;}
 .pf-value-row{display:flex;align-items:center;gap:12px;margin-bottom:5px;}
@@ -45,14 +45,20 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .btn-secondary{flex:1;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;}
 .btn-secondary:hover{background:var(--card2);}
 
-/* ── TABS ── */
+/* MAIN TABS */
 .p-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:0;}
 .p-tab{padding:11px 20px;cursor:pointer;font-size:15px;color:var(--muted2);border-bottom:2px solid transparent;transition:all .15s;}
 .p-tab:hover{color:var(--text);}
 .p-tab.active{color:var(--text);border-bottom-color:var(--text);font-weight:600;}
 
-/* ── SEARCH / FILTER BARS ── */
-.search-bar-row{display:flex;gap:10px;padding:16px 0;}
+/* SUB TABS (生效中 / 已结束) */
+.sub-tabs-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0 4px;}
+.sub-tabs{display:flex;gap:4px;}
+.sub-tab{padding:6px 18px;border-radius:20px;cursor:pointer;font-size:14px;color:var(--muted2);background:transparent;border:1px solid transparent;transition:all .15s;}
+.sub-tab.active{background:var(--card2);border-color:var(--border);color:var(--text);font-weight:600;}
+
+/* SEARCH / FILTER BARS */
+.search-bar-row{display:flex;gap:10px;padding:12px 0;}
 .s-box{flex:1;display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;}
 .s-box input{background:none;border:none;color:var(--text);font-size:13px;outline:none;width:100%;}
 .s-box input::placeholder{color:var(--muted);}
@@ -62,46 +68,54 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .filter-chip:hover{color:var(--text);}
 .filter-chip.active{border-color:#4a4f62;color:var(--text);}
 
-/* ── TABLE HEADER ── */
-.tbl-hdr{display:grid;padding:8px 16px 8px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--border);}
-.pos-grid{grid-template-columns:minmax(200px,1fr) 180px 120px 130px 200px;}
+/* TABLE HEADERS */
+.tbl-hdr{display:grid;padding:8px 16px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--border);}
+.active-grid{grid-template-columns:minmax(240px,1fr) 90px 90px minmax(160px,200px) 40px;}
+.ended-grid{grid-template-columns:110px minmax(200px,1fr) 120px minmax(160px,200px) 40px;}
 .ord-grid{grid-template-columns:minmax(200px,1fr) 130px 130px 160px;}
 .hist-grid{grid-template-columns:130px minmax(200px,1fr) 130px 110px;}
 .tbl-col{display:flex;align-items:center;gap:4px;}
 .sc{cursor:pointer;font-size:10px;color:var(--muted);}
 
-/* ── POSITION ROW ── */
+/* POSITION ROW */
 .pos-row{display:grid;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
 .pos-row:hover{background:rgba(255,255,255,.02);}
 .pos-info{display:flex;align-items:center;gap:12px;}
+.atp-logo{width:38px;height:38px;border-radius:9px;background:#003580;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;letter-spacing:-.5px;flex-shrink:0;line-height:1.1;text-align:center;}
 .league-logo{width:38px;height:38px;border-radius:9px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#002D72,#D50032);display:flex;align-items:center;justify-content:center;}
 .pos-texts{}
-.pos-match{font-size:13px;font-weight:600;margin-bottom:5px;line-height:1.2;}
+.pos-match{font-size:13px;font-weight:600;margin-bottom:5px;line-height:1.3;}
 .pos-tags{display:flex;align-items:center;gap:8px;}
-.outcome-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.35);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:#fb923c;}
+.outcome-badge{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;}
+.outcome-badge.green{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green);}
+.outcome-badge.red{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:var(--red);}
+.outcome-badge.orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.35);color:#fb923c;}
 .shares-label{font-size:12px;color:var(--muted2);}
-.price-chg{display:flex;align-items:center;gap:5px;font-size:13px;}
-.p-from{color:var(--muted2);}
-.p-arrow{color:var(--muted);font-size:12px;}
-.p-to{font-weight:600;}
-.col-amount{font-size:13px;font-weight:600;}
-.col-maxwin{font-size:13px;font-weight:600;color:var(--green);}
+.price-cell{font-size:13px;font-weight:600;color:var(--muted2);}
 .val-col{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.val-text{}
 .val-main{font-size:15px;font-weight:700;}
 .val-pl{font-size:12px;margin-top:2px;}
 .val-pl.up{color:var(--green);}
 .val-pl.dn{color:var(--red);}
 .row-actions{display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.sell-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;}
+.sell-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;}
 .sell-btn:hover{background:#2563eb;}
+.claim-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;}
+.claim-btn:hover{background:#16a34a;}
 .icon-btn{background:transparent;border:1px solid var(--border);border-radius:8px;padding:7px 9px;color:var(--muted2);cursor:pointer;transition:all .15s;line-height:1;}
 .icon-btn:hover{color:var(--text);}
 
-/* ── EMPTY STATE ── */
+/* RESULT BADGE */
+.result-won{display:flex;align-items:center;gap:6px;color:var(--green);font-size:13px;font-weight:600;}
+.result-lost{display:flex;align-items:center;gap:6px;color:var(--red);font-size:13px;font-weight:600;}
+.result-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.result-icon.won{background:rgba(34,197,94,.2);border:1.5px solid var(--green);}
+.result-icon.lost{background:rgba(239,68,68,.2);border:1.5px solid var(--red);}
+
+/* EMPTY STATE */
 .empty{padding:52px 16px;text-align:center;color:var(--muted);font-size:13px;}
 
-/* ── HISTORY ROW ── */
+/* HISTORY ROW */
 .hist-row{display:grid;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
 .hist-row:hover{background:rgba(255,255,255,.02);}
 .tx-cell{display:flex;align-items:center;gap:9px;}
@@ -125,6 +139,81 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .hist-val.neu{color:var(--muted);}
 .hist-time{font-size:12px;color:var(--muted);text-align:right;}
 
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.modal-box{background:#1a1d27;border:1px solid var(--border);border-radius:18px;padding:28px 24px;width:440px;max-width:94vw;position:relative;}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--muted2);cursor:pointer;font-size:22px;line-height:1;width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{color:var(--text);}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:6px;}
+.modal-subtitle{font-size:14px;color:var(--muted2);margin-bottom:22px;}
+
+/* Sell/Claim modal */
+.redeem-amount-row{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:24px;display:flex;align-items:center;gap:10px;}
+.redeem-label{font-size:14px;color:var(--muted2);margin-right:8px;}
+.redeem-amount{font-size:24px;font-weight:700;color:var(--green);}
+.redeem-submit{width:100%;background:#2d8fef;color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;transition:background .15s;}
+.redeem-submit:hover{background:#1d6fc0;}
+
+/* Share modal */
+.share-card{background:linear-gradient(135deg,#1a4fd8,#2563eb,#3b82f6);border-radius:16px;padding:20px;margin-bottom:20px;overflow:hidden;position:relative;}
+.share-card-user{display:flex;justify-content:center;margin-bottom:14px;}
+.share-username-pill{background:rgba(0,0,0,.4);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;}
+.share-user-avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#ec4899);}
+.share-trade-card{background:#fff;border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;}
+.share-trade-left{padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;}
+.share-trade-left-logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#002D72,#D50032);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.share-trade-brand{display:flex;align-items:center;gap:5px;color:#9ca3af;font-size:11px;}
+.share-trade-matchname{color:#111;font-size:13px;font-weight:700;line-height:1.3;margin-top:8px;}
+.share-trade-right{padding:16px;border-left:1px solid #f0f0f0;display:flex;flex-direction:column;gap:6px;}
+.share-trade-outcome{color:#16a34a;font-size:16px;font-weight:800;margin-bottom:8px;}
+.share-stat-row{display:flex;justify-content:space-between;font-size:12px;}
+.share-stat-key{color:#6b7280;}
+.share-stat-val{color:#111;font-weight:600;}
+.share-divider{border:none;border-top:1px solid #e5e7eb;margin:6px 0;}
+.share-win-label{color:#6b7280;font-size:12px;margin-bottom:2px;}
+.share-win-amount{color:#111;font-size:22px;font-weight:800;}
+.share-card-brand{display:flex;justify-content:center;margin-top:14px;gap:8px;align-items:center;color:rgba(255,255,255,.7);font-size:13px;}
+.share-actions{display:flex;gap:10px;}
+.share-action-btn{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.share-action-btn:hover{background:var(--border);}
+.share-action-btn.primary{background:#1da1f2;border-color:#1da1f2;color:#fff;}
+.share-action-btn.primary:hover{background:#1890db;}
+
+/* Deposit modal */
+.deposit-header{text-align:center;margin-bottom:20px;}
+.deposit-balance-sub{font-size:13px;color:var(--muted2);}
+.deposit-selectors{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.sel-group{display:flex;flex-direction:column;gap:6px;}
+.sel-label{font-size:12px;color:var(--muted2);}
+.sel-min{font-size:12px;color:var(--muted2);text-align:right;}
+.sel-btn{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.sel-btn-inner{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;}
+.qr-wrap{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;justify-content:center;margin-bottom:18px;}
+.qr-img{width:180px;height:180px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.addr-section{margin-bottom:18px;}
+.addr-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.addr-label{font-size:13px;color:var(--muted2);display:flex;align-items:center;gap:5px;}
+.addr-terms{font-size:12px;color:var(--blue);cursor:pointer;text-decoration:underline;}
+.addr-box{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--muted2);letter-spacing:.3px;word-break:break-all;margin-bottom:10px;}
+.copy-addr-btn{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.copy-addr-btn:hover{background:var(--border);}
+.price-impact-row{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:13px;color:var(--muted2);}
+
+/* Withdraw modal */
+.withdraw-field{margin-bottom:16px;}
+.field-label{font-size:13px;color:var(--muted2);margin-bottom:7px;}
+.field-input{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;width:100%;color:var(--text);font-size:14px;outline:none;}
+.field-input:focus{border-color:var(--blue);}
+.field-input::placeholder{color:var(--muted);}
+.amount-wrap{position:relative;}
+.amount-suffix{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted2);font-weight:600;}
+.amount-max{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text);}
+.amount-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--muted2);}
+.withdraw-selectors{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.will-receive-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted2);margin-bottom:8px;}
+.tx-breakdown{font-size:13px;color:var(--muted2);margin-bottom:22px;}
+.withdraw-submit{width:100%;background:#3d5c9e;color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;opacity:.7;}
+
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px;}
@@ -144,7 +233,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
   </div>
   <div class="navitem" onclick="location.href='worldcup_leaderboard.html'">排行榜</div>
   <div class="spacer"></div>
-  <button class="top-recharge-btn">充值</button>
+  <button class="top-recharge-btn" onclick="openDeposit()">充值</button>
   <div class="balance-item"><span class="balance-label">总余额</span><span class="balance-val">$20.37</span></div>
   <div class="balance-item"><span class="balance-label">可用资金</span><span class="balance-val">$19.37</span></div>
   <div class="nav-icon-btn">
@@ -175,18 +264,18 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
       <div class="pf-avail-val">$19.37</div>
     </div>
     <div class="pf-actions">
-      <button class="btn-primary">
+      <button class="btn-primary" onclick="openDeposit()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
         充值
       </button>
-      <button class="btn-secondary">
+      <button class="btn-secondary" onclick="openWithdraw()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="16 7 12 3 8 7"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
         提现
       </button>
     </div>
   </div>
 
-  <!-- Tabs -->
+  <!-- Main Tabs -->
   <div class="p-tabs">
     <div class="p-tab active" onclick="switchTab('positions',this)">持仓</div>
     <div class="p-tab" onclick="switchTab('orders',this)">未成交订单</div>
@@ -195,52 +284,164 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 
   <!-- ── TAB: 持仓 ── -->
   <div id="tab-positions">
-    <div class="search-bar-row">
-      <div class="s-box">
-        <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="搜索"/>
-      </div>
-      <div class="sort-btn">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
-        当前价值
+    <!-- Sub tabs -->
+    <div class="sub-tabs-row">
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('active',this)">生效中</div>
+        <div class="sub-tab" onclick="switchSubTab('ended',this)">已结束</div>
       </div>
     </div>
-    <div class="tbl-hdr pos-grid">
-      <div class="tbl-col">盘口 <span class="sc">◇</span></div>
-      <div class="tbl-col">均价 → 当前价 <span style="color:var(--muted);font-size:10px;">ⓘ</span> <span class="sc">◇</span></div>
-      <div class="tbl-col">交易金额 <span class="sc">◇</span></div>
-      <div class="tbl-col">可赢利金额 <span class="sc">◇</span></div>
-      <div class="tbl-col">价值 <span class="sc">◇</span></div>
-    </div>
-    <!-- Row -->
-    <div class="pos-row pos-grid">
-      <div class="pos-info">
-        <div class="league-logo">
-          <svg viewBox="0 0 60 60" width="26" height="26"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><path d="M16 22 Q30 8 44 22" fill="none" stroke="#002D72" stroke-width="3"/><rect x="18" y="22" width="24" height="22" rx="2" fill="white" opacity=".8"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
+
+    <!-- 生效中 -->
+    <div id="subtab-active">
+      <div class="search-bar-row">
+        <div class="s-box">
+          <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="搜索持仓"/>
         </div>
-        <div class="pos-texts">
-          <div class="pos-match">New York Mets vs. Arizona Diamondbacks</div>
-          <div class="pos-tags">
-            <span class="outcome-badge">New York Mets 48¢</span>
-            <span class="shares-label">2.1 份额</span>
+        <div class="sort-btn">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+          价值
+        </div>
+      </div>
+      <div class="tbl-hdr active-grid">
+        <div class="tbl-col">盘口 <span class="sc">◇</span></div>
+        <div class="tbl-col">均价 <span class="sc">◇</span></div>
+        <div class="tbl-col">当前</div>
+        <div class="tbl-col">价值 <span class="sc">◇</span></div>
+        <div></div>
+      </div>
+
+      <!-- Row 1: winning -->
+      <div class="pos-row active-grid">
+        <div class="pos-info">
+          <div class="atp-logo">ATP<br/>TOUR</div>
+          <div class="pos-texts">
+            <div class="pos-match">Internazionali BNL d'Italia: Thiago Agustin Tirante vs Cameron Norrie</div>
+            <div class="pos-tags">
+              <span class="outcome-badge green">Thiago Agustin Tirante 66¢</span>
+              <span class="shares-label">1.5 份额</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="price-chg">
-        <span class="p-from">48¢</span>
-        <span class="p-arrow">→</span>
-        <span class="p-to">57.5¢</span>
-      </div>
-      <div class="col-amount">$1.00</div>
-      <div class="col-maxwin">$2.08</div>
-      <div class="val-col">
-        <div class="val-text">
-          <div class="val-main">$1.20</div>
-          <div class="val-pl up">+$0.20 (19.79%)</div>
+        <div class="price-cell">66¢</div>
+        <div class="price-cell" style="color:var(--text);">100¢</div>
+        <div class="val-col">
+          <div>
+            <div class="val-main">$1.51</div>
+            <div class="val-pl up">$0.51 (51.43%)</div>
+          </div>
         </div>
-        <div class="row-actions">
-          <button class="sell-btn">卖出</button>
-          <button class="icon-btn">
+        <div>
+          <button class="icon-btn" onclick="openShare('Thiago Agustin Tirante vs Cameron Norrie','Thiago Agustin Tirante','$1.00','66%','$1.51')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: small loss -->
+      <div class="pos-row active-grid">
+        <div class="pos-info">
+          <div class="atp-logo">ATP<br/>TOUR</div>
+          <div class="pos-texts">
+            <div class="pos-match">Internazionali BNL d'Italia: Tomas Machac vs Daniil Medvedev</div>
+            <div class="pos-tags">
+              <span class="outcome-badge red">Daniil Medvedev 51¢</span>
+              <span class="shares-label">2.0 份额</span>
+            </div>
+          </div>
+        </div>
+        <div class="price-cell">51¢</div>
+        <div class="price-cell" style="color:var(--text);">50¢</div>
+        <div class="val-col">
+          <div>
+            <div class="val-main">$0.98</div>
+            <div class="val-pl dn">-$0.02 (-1.96%)</div>
+          </div>
+        </div>
+        <div>
+          <button class="icon-btn" onclick="openShare('Tomas Machac vs Daniil Medvedev','Daniil Medvedev','$1.00','51%','$0.98')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 3: big loss -->
+      <div class="pos-row active-grid">
+        <div class="pos-info">
+          <div class="atp-logo">ATP<br/>TOUR</div>
+          <div class="pos-texts">
+            <div class="pos-match">Internazionali BNL d'Italia: Corentin Moutet vs Pablo Llamas Ruiz</div>
+            <div class="pos-tags">
+              <span class="outcome-badge red">Pablo Llamas Ruiz 52.1¢</span>
+              <span class="shares-label">1.9 份额</span>
+            </div>
+          </div>
+        </div>
+        <div class="price-cell">52.1¢</div>
+        <div class="price-cell" style="color:var(--text);">26.5¢</div>
+        <div class="val-col">
+          <div>
+            <div class="val-main">$0.51</div>
+            <div class="val-pl dn">-$0.49 (-49.11%)</div>
+          </div>
+        </div>
+        <div>
+          <button class="icon-btn" onclick="openShare('Corentin Moutet vs Pablo Llamas Ruiz','Pablo Llamas Ruiz','$1.00','52%','$0.51')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 已结束 -->
+    <div id="subtab-ended" style="display:none;">
+      <div class="search-bar-row">
+        <div class="s-box">
+          <svg width="14" height="14" fill="none" stroke="#5a5f72" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="搜索持仓"/>
+        </div>
+        <div class="sort-btn">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+          盈亏
+        </div>
+      </div>
+      <div class="tbl-hdr ended-grid">
+        <div class="tbl-col">结果</div>
+        <div class="tbl-col">盘口 <span class="sc">◇</span></div>
+        <div class="tbl-col">总交易金额</div>
+        <div class="tbl-col">赢利金额 <span class="sc">◇</span></div>
+        <div></div>
+      </div>
+
+      <!-- Row 1: won -->
+      <div class="pos-row ended-grid">
+        <div class="result-won">
+          <div class="result-icon won">
+            <svg width="12" height="12" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          已赢利
+        </div>
+        <div class="pos-info">
+          <div class="league-logo">
+            <svg viewBox="0 0 60 60" width="22" height="22"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
+          </div>
+          <div class="pos-texts">
+            <div class="pos-match">New York Mets vs. Arizona Diamondbacks</div>
+            <div class="pos-tags">
+              <span class="shares-label">2.1 New York Mets at 47¢</span>
+            </div>
+          </div>
+        </div>
+        <div class="price-cell" style="color:var(--text);">$1.00</div>
+        <div class="val-col">
+          <div>
+            <div class="val-main">$2.13</div>
+            <div class="val-pl up">$1.13 (112.77%)</div>
+          </div>
+        </div>
+        <div>
+          <button class="icon-btn" onclick="openShare('New York Mets vs. Arizona Diamondbacks','New York Mets','$1.00','47%','$2.13')">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
         </div>
@@ -280,18 +481,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
         全部
       </div>
-      <div class="filter-chip">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-        最新
-      </div>
-      <div class="filter-chip">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        日期
-      </div>
-      <div class="filter-chip">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
-        导出
-      </div>
+      <div class="filter-chip">最新</div>
+      <div class="filter-chip">日期</div>
+      <div class="filter-chip">导出</div>
     </div>
     <div class="tbl-hdr hist-grid">
       <div class="tbl-col">交易记录</div>
@@ -299,94 +491,259 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
       <div class="tbl-col">价值 <span class="sc">◇</span></div>
       <div class="tbl-col" style="justify-content:flex-end;">时间 <span class="sc">◇</span></div>
     </div>
-
-    <!-- Row: 亏损 -->
     <div class="hist-row hist-grid">
-      <div class="tx-cell">
-        <div class="tx-ico loss">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </div>
-        <span class="tx-type-label">亏损</span>
-      </div>
-      <div class="market-cell">
-        <div class="hist-logo">
-          <svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
-        </div>
-        <div class="mkt-detail">
-          <div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div>
-          <div class="mkt-shares">0.0 份额</div>
-        </div>
-      </div>
+      <div class="tx-cell"><div class="tx-ico loss"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><span class="tx-type-label">亏损</span></div>
+      <div class="market-cell"><div class="hist-logo"><svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg></div><div class="mkt-detail"><div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div><div class="mkt-shares">0.0 份额</div></div></div>
       <div class="hist-val neu">-</div>
       <div class="hist-time">8秒 前</div>
     </div>
-
-    <!-- Row: 兑换 -->
     <div class="hist-row hist-grid">
-      <div class="tx-cell">
-        <div class="tx-ico redeem">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <span class="tx-type-label">兑换</span>
-      </div>
-      <div class="market-cell">
-        <div class="hist-logo">
-          <svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
-        </div>
-        <div class="mkt-detail">
-          <div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div>
-        </div>
-      </div>
+      <div class="tx-cell"><div class="tx-ico redeem"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tx-type-label">兑换</span></div>
+      <div class="market-cell"><div class="hist-logo"><svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg></div><div class="mkt-detail"><div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div></div></div>
       <div class="hist-val pos">+$2.13</div>
       <div class="hist-time">2时 前</div>
     </div>
-
-    <!-- Row: 买入 -->
     <div class="hist-row hist-grid">
-      <div class="tx-cell">
-        <div class="tx-ico buy">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </div>
-        <span class="tx-type-label">买入</span>
-      </div>
-      <div class="market-cell">
-        <div class="hist-logo">
-          <svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
-        </div>
-        <div class="mkt-detail">
-          <div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div>
-          <div class="mkt-badge-row">
-            <span class="mkt-badge">New York Mets 48¢</span>
-            <span class="mkt-shares">2.1 份额</span>
-          </div>
-        </div>
-      </div>
+      <div class="tx-cell"><div class="tx-ico buy"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span class="tx-type-label">买入</span></div>
+      <div class="market-cell"><div class="hist-logo"><svg viewBox="0 0 60 60" width="20" height="20"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg></div><div class="mkt-detail"><div class="mkt-name">New York Mets vs. Arizona Diamondbacks</div><div class="mkt-badge-row"><span class="mkt-badge">New York Mets 48¢</span><span class="mkt-shares">2.1 份额</span></div></div></div>
       <div class="hist-val neg">-$1.02</div>
       <div class="hist-time">5时 前</div>
     </div>
-
-    <!-- Row: 充值 -->
     <div class="hist-row hist-grid">
-      <div class="tx-cell">
-        <div class="tx-ico deposit">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
-        </div>
-        <span class="tx-type-label">充值</span>
-      </div>
-      <div class="market-cell">
-        <div class="hist-logo deposit-logo">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/><polyline points="8 12 12 8 16 12"/></svg>
-        </div>
-        <div class="mkt-detail">
-          <div class="mkt-name">充值</div>
-        </div>
-      </div>
+      <div class="tx-cell"><div class="tx-ico deposit"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg></div><span class="tx-type-label">充值</span></div>
+      <div class="market-cell"><div class="hist-logo deposit-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></div><div class="mkt-detail"><div class="mkt-name">充值</div></div></div>
       <div class="hist-val pos">+$20.38</div>
       <div class="hist-time">5时 前</div>
     </div>
+  </div>
 
-  </div><!-- /tab-history -->
 </div><!-- /page -->
+
+<!-- ══════════════════════════════════════
+     MODAL: 兑换 / 领取
+══════════════════════════════════════ -->
+<div id="modal-sell" class="modal-overlay" style="display:none;" onclick="closeModal('modal-sell',event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-sell')">×</button>
+    <div class="modal-title" id="sell-modal-title">兑换 New York Mets</div>
+    <div class="modal-subtitle" id="sell-modal-subtitle">New York Mets vs. Arizona Diamondbacks</div>
+    <div class="redeem-amount-row">
+      <span class="redeem-label">收到</span>
+      <span class="redeem-amount" id="sell-modal-amount">$0.97</span>
+    </div>
+    <button class="redeem-submit" id="sell-modal-btn">兑换 $0.97</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: 分享交易
+══════════════════════════════════════ -->
+<div id="modal-share" class="modal-overlay" style="display:none;" onclick="closeModal('modal-share',event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-share')">×</button>
+    <div class="modal-title" style="margin-bottom:16px;">分享交易</div>
+    <div class="share-card">
+      <div class="share-card-user">
+        <div class="share-username-pill">
+          <div class="share-user-avatar"></div>
+          Wenniegogogo
+        </div>
+      </div>
+      <div class="share-trade-card">
+        <div class="share-trade-left">
+          <div>
+            <div class="share-trade-left-logo">
+              <svg viewBox="0 0 60 60" width="22" height="22"><ellipse cx="30" cy="22" rx="14" ry="16" fill="white" opacity=".9"/><circle cx="30" cy="33" r="7" fill="#D50032" opacity=".7"/></svg>
+            </div>
+            <div class="share-trade-brand">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Polymarket
+            </div>
+          </div>
+          <div class="share-trade-matchname" id="share-match-name">New York Mets vs.<br/>Arizona Diamondbacks</div>
+        </div>
+        <div class="share-trade-right">
+          <div class="share-trade-outcome" id="share-outcome-name">New York Mets</div>
+          <div class="share-stat-row"><span class="share-stat-key">Cost</span><span class="share-stat-val" id="share-cost">$1.00</span></div>
+          <div class="share-stat-row"><span class="share-stat-key">Odds</span><span class="share-stat-val" id="share-odds">47%</span></div>
+          <hr class="share-divider"/>
+          <div class="share-win-label">To win</div>
+          <div class="share-win-amount" id="share-towin">$2.13</div>
+        </div>
+      </div>
+      <div class="share-card-brand">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Polymarket
+      </div>
+    </div>
+    <div class="share-actions">
+      <button class="share-action-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        复制链接
+      </button>
+      <button class="share-action-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        复制图片
+      </button>
+      <button class="share-action-btn primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.26 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        分享
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: 充值 (Transfer Crypto)
+══════════════════════════════════════ -->
+<div id="modal-deposit" class="modal-overlay" style="display:none;" onclick="closeModal('modal-deposit',event)">
+  <div class="modal-box" style="width:460px;">
+    <button class="modal-close" onclick="closeModal('modal-deposit')">×</button>
+    <div class="deposit-header">
+      <div class="modal-title" style="text-align:center;">Transfer Crypto</div>
+      <div class="deposit-balance-sub">Alph.AI 余额: $18.45</div>
+    </div>
+    <div class="deposit-selectors">
+      <div class="sel-group">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="sel-label">Tokens</span>
+        </div>
+        <div class="sel-btn">
+          <div class="sel-btn-inner">
+            <svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#2775CA"/><path d="M20.922 18.383c0-2.14-1.284-2.872-3.852-3.177-1.833-.244-2.2-.732-2.2-1.586 0-.854.61-1.403 1.833-1.403 1.1 0 1.712.366 2.016 1.281.061.183.22.305.427.305h.977c.244 0 .427-.183.427-.427v-.061c-.244-1.342-1.342-2.382-2.75-2.504v-1.403c0-.244-.183-.427-.488-.488h-.915c-.244 0-.427.183-.488.488v1.342c-1.833.244-2.994 1.403-2.994 2.87 0 2.016 1.22 2.81 3.79 3.116 1.709.305 2.261.671 2.261 1.647s-.854 1.648-2.016 1.648c-1.586 0-2.138-.671-2.322-1.586-.061-.244-.244-.366-.427-.366h-1.038c-.244 0-.427.183-.427.427v.061c.244 1.464 1.22 2.504 3.178 2.81v1.403c0 .244.183.427.488.488h.915c.244 0 .427-.183.488-.488V21.31c1.833-.305 3.117-1.525 3.117-2.927z" fill="white"/></svg>
+            USDC
+          </div>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="sel-group">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="sel-label">Chains</span>
+          <span class="sel-min">Min $10 ⓘ</span>
+        </div>
+        <div class="sel-btn">
+          <div class="sel-btn-inner">
+            <svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#627EEA"/><path d="M16.498 4v8.87l7.497 3.35z" fill="white" fill-opacity=".6"/><path d="M16.498 4L9 16.22l7.498-3.35z" fill="white"/><path d="M16.498 21.968v6.027L24 17.616z" fill="white" fill-opacity=".6"/><path d="M16.498 27.995v-6.028L9 17.616z" fill="white"/><path d="M16.498 20.573l7.497-4.353-7.497-3.348z" fill="white" fill-opacity=".2"/><path d="M9 16.22l7.498 4.353v-7.701z" fill="white" fill-opacity=".6"/></svg>
+            Ethereum
+          </div>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="qr-wrap">
+      <div class="qr-img">
+        <!-- QR code placeholder pattern -->
+        <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="160" height="160" fill="white"/>
+          <!-- Top-left finder pattern -->
+          <rect x="10" y="10" width="40" height="40" rx="4" fill="#111"/>
+          <rect x="16" y="16" width="28" height="28" rx="2" fill="white"/>
+          <rect x="21" y="21" width="18" height="18" rx="1" fill="#111"/>
+          <!-- Top-right finder pattern -->
+          <rect x="110" y="10" width="40" height="40" rx="4" fill="#111"/>
+          <rect x="116" y="16" width="28" height="28" rx="2" fill="white"/>
+          <rect x="121" y="21" width="18" height="18" rx="1" fill="#111"/>
+          <!-- Bottom-left finder pattern -->
+          <rect x="10" y="110" width="40" height="40" rx="4" fill="#111"/>
+          <rect x="16" y="116" width="28" height="28" rx="2" fill="white"/>
+          <rect x="21" y="121" width="18" height="18" rx="1" fill="#111"/>
+          <!-- Data dots pattern (simplified) -->
+          <g fill="#111">
+            <rect x="58" y="10" width="6" height="6"/><rect x="70" y="10" width="6" height="6"/><rect x="82" y="10" width="6" height="6"/>
+            <rect x="58" y="22" width="6" height="6"/><rect x="76" y="22" width="6" height="6"/>
+            <rect x="64" y="34" width="6" height="6"/><rect x="82" y="34" width="6" height="6"/>
+            <rect x="58" y="46" width="6" height="6"/><rect x="70" y="46" width="6" height="6"/>
+            <rect x="10" y="58" width="6" height="6"/><rect x="22" y="58" width="6" height="6"/><rect x="58" y="58" width="6" height="6"/><rect x="70" y="58" width="6" height="6"/><rect x="82" y="58" width="6" height="6"/><rect x="94" y="58" width="6" height="6"/><rect x="118" y="58" width="6" height="6"/><rect x="136" y="58" width="6" height="6"/>
+            <rect x="10" y="70" width="6" height="6"/><rect x="34" y="70" width="6" height="6"/><rect x="64" y="70" width="6" height="6"/><rect x="88" y="70" width="6" height="6"/><rect x="106" y="70" width="6" height="6"/><rect x="124" y="70" width="6" height="6"/>
+            <rect x="22" y="82" width="6" height="6"/><rect x="46" y="82" width="6" height="6"/><rect x="58" y="82" width="6" height="6"/><rect x="76" y="82" width="6" height="6"/><rect x="100" y="82" width="6" height="6"/><rect x="136" y="82" width="6" height="6"/>
+            <rect x="10" y="94" width="6" height="6"/><rect x="28" y="94" width="6" height="6"/><rect x="52" y="94" width="6" height="6"/><rect x="70" y="94" width="6" height="6"/><rect x="88" y="94" width="6" height="6"/><rect x="112" y="94" width="6" height="6"/><rect x="130" y="94" width="6" height="6"/>
+            <rect x="58" y="106" width="6" height="6"/><rect x="76" y="106" width="6" height="6"/><rect x="100" y="106" width="6" height="6"/><rect x="118" y="106" width="6" height="6"/>
+            <rect x="58" y="118" width="6" height="6"/><rect x="82" y="118" width="6" height="6"/><rect x="106" y="118" width="6" height="6"/><rect x="130" y="118" width="6" height="6"/>
+            <rect x="58" y="130" width="6" height="6"/><rect x="70" y="130" width="6" height="6"/><rect x="94" y="130" width="6" height="6"/><rect x="118" y="130" width="6" height="6"/>
+            <rect x="64" y="142" width="6" height="6"/><rect x="82" y="142" width="6" height="6"/><rect x="100" y="142" width="6" height="6"/><rect x="124" y="142" width="6" height="6"/>
+          </g>
+          <!-- ETH logo center -->
+          <circle cx="80" cy="80" r="14" fill="#627EEA"/>
+          <path d="M80 68l-7 13 7 4 7-4z" fill="white" opacity=".6"/>
+          <path d="M80 68l-7 13 7-3 7 3z" fill="white"/>
+          <path d="M80 88l-7-3 7 9 7-9z" fill="white" opacity=".6"/>
+          <path d="M80 88l-7-3 7 3 7-3z" fill="white" opacity=".2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="addr-section">
+      <div class="addr-label-row">
+        <span class="addr-label">Your deposit address ⓘ</span>
+        <span class="addr-terms">Terms apply</span>
+      </div>
+      <div class="addr-box">0x50be3489f9c08C053aad247F480f6FcdE59e86d7</div>
+      <button class="copy-addr-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy address
+      </button>
+    </div>
+    <div class="price-impact-row">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" style="vertical-align:middle;margin-right:5px;"><circle cx="16" cy="16" r="16" fill="#2775CA"/><path d="M20.922 18.383c0-2.14-1.284-2.872-3.852-3.177-1.833-.244-2.2-.732-2.2-1.586 0-.854.61-1.403 1.833-1.403 1.1 0 1.712.366 2.016 1.281.061.183.22.305.427.305h.977c.244 0 .427-.183.427-.427v-.061c-.244-1.342-1.342-2.382-2.75-2.504v-1.403c0-.244-.183-.427-.488-.488h-.915c-.244 0-.427.183-.488.488v1.342c-1.833.244-2.994 1.403-2.994 2.87 0 2.016 1.22 2.81 3.79 3.116 1.709.305 2.261.671 2.261 1.647s-.854 1.648-2.016 1.648c-1.586 0-2.138-.671-2.322-1.586-.061-.244-.244-.366-.427-.366h-1.038c-.244 0-.427.183-.427.427v.061c.244 1.464 1.22 2.504 3.178 2.81v1.403c0 .244.183.427.488.488h.915c.244 0 .427-.183.488-.488V21.31c1.833-.305 3.117-1.525 3.117-2.927z" fill="white"/></svg>
+        Price impact: 0.00% ⓘ
+      </span>
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: 提现 (Withdraw)
+══════════════════════════════════════ -->
+<div id="modal-withdraw" class="modal-overlay" style="display:none;" onclick="closeModal('modal-withdraw',event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-withdraw')">×</button>
+    <div class="modal-title" style="text-align:center;margin-bottom:22px;">提现</div>
+    <div class="withdraw-field">
+      <div class="field-label">Recipient address</div>
+      <input class="field-input" type="text" placeholder="0x..." value="0x50be3489f9c08C053aad2..."/>
+    </div>
+    <div class="withdraw-field">
+      <div class="field-label">Amount</div>
+      <div class="amount-wrap">
+        <input class="field-input" type="text" placeholder="0.00" style="padding-right:90px;"/>
+        <span class="amount-suffix">pUSD</span>
+        <button class="amount-max">Max</button>
+      </div>
+      <div class="amount-meta">
+        <span>$0.00</span>
+        <span>Balance: 18.45 pUSD</span>
+      </div>
+    </div>
+    <div class="withdraw-selectors">
+      <div class="sel-group">
+        <div class="sel-label">Receive token</div>
+        <div class="sel-btn">
+          <div class="sel-btn-inner">
+            <svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#2775CA"/><path d="M20.922 18.383c0-2.14-1.284-2.872-3.852-3.177-1.833-.244-2.2-.732-2.2-1.586 0-.854.61-1.403 1.833-1.403 1.1 0 1.712.366 2.016 1.281.061.183.22.305.427.305h.977c.244 0 .427-.183.427-.427v-.061c-.244-1.342-1.342-2.382-2.75-2.504v-1.403c0-.244-.183-.427-.488-.488h-.915c-.244 0-.427.183-.488.488v1.342c-1.833.244-2.994 1.403-2.994 2.87 0 2.016 1.22 2.81 3.79 3.116 1.709.305 2.261.671 2.261 1.647s-.854 1.648-2.016 1.648c-1.586 0-2.138-.671-2.322-1.586-.061-.244-.244-.366-.427-.366h-1.038c-.244 0-.427.183-.427.427v.061c.244 1.464 1.22 2.504 3.178 2.81v1.403c0 .244.183.427.488.488h.915c.244 0 .427-.183.488-.488V21.31c1.833-.305 3.117-1.525 3.117-2.927z" fill="white"/></svg>
+            USDC
+          </div>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="sel-group">
+        <div class="sel-label">Receive chain</div>
+        <div class="sel-btn">
+          <div class="sel-btn-inner">
+            <svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#8247e5"/><path d="M21.092 12.693c-.369-.215-.848-.215-1.254 0l-2.879 1.654-1.955 1.078-2.879 1.654c-.369.215-.848.215-1.254 0l-2.288-1.332c-.369-.215-.627-.61-.627-1.04V12.01c0-.43.221-.824.627-1.04l2.252-1.295c.369-.215.848-.215 1.254 0l2.252 1.295c.369.215.627.61.627 1.04v1.654l1.955-1.115v-1.69c0-.43-.221-.824-.627-1.04l-4.17-2.407c-.369-.215-.848-.215-1.254 0l-4.244 2.443c-.406.216-.627.61-.627 1.04v4.887c0 .43.221.824.627 1.04l4.244 2.443c.369.215.848.215 1.254 0l2.879-1.617 1.955-1.115 2.879-1.617c.369-.215.848-.215 1.254 0l2.252 1.295c.369.215.627.61.627 1.04v2.697c0 .43-.221.824-.627 1.04l-2.252 1.332c-.369.215-.848.215-1.254 0l-2.252-1.332c-.369-.215-.627-.61-.627-1.04v-1.654l-1.955 1.115v1.69c0 .43.221.824.627 1.04l4.244 2.443c.369.215.848.215 1.254 0l4.244-2.443c.369-.215.627-.61.627-1.04v-4.887c0-.43-.221-.824-.627-1.04l-4.281-2.48z" fill="white"/></svg>
+            Polygon
+          </div>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="will-receive-row">
+      <span>You will receive</span><span style="color:var(--muted);">-</span>
+    </div>
+    <div class="tx-breakdown">Transaction breakdown <span style="float:right;color:var(--muted);">-</span></div>
+    <button class="withdraw-submit">Enter Recipient Address</button>
+  </div>
+</div>
 
 <script>
 function switchTab(id, el) {
@@ -396,6 +753,47 @@ function switchTab(id, el) {
     const d = document.getElementById('tab-' + t);
     if (d) d.style.display = t === id ? 'block' : 'none';
   });
+}
+
+function switchSubTab(id, el) {
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('subtab-active').style.display = id === 'active' ? 'block' : 'none';
+  document.getElementById('subtab-ended').style.display = id === 'ended' ? 'block' : 'none';
+}
+
+/* Sell / Claim modal */
+function openSell(outcome, matchName, amount, isEnded) {
+  document.getElementById('sell-modal-title').textContent = (isEnded ? '领取 ' : '兑换 ') + outcome;
+  document.getElementById('sell-modal-subtitle').textContent = matchName;
+  document.getElementById('sell-modal-amount').textContent = amount;
+  const btnText = (isEnded ? '领取 ' : '兑换 ') + amount;
+  document.getElementById('sell-modal-btn').textContent = btnText;
+  document.getElementById('modal-sell').style.display = 'flex';
+}
+
+/* Share modal */
+function openShare(matchName, outcomeName, cost, odds, toWin) {
+  document.getElementById('share-match-name').innerHTML = matchName.replace(' vs. ', ' vs.<br/>').replace(' vs ', ' vs.<br/>');
+  document.getElementById('share-outcome-name').textContent = outcomeName;
+  document.getElementById('share-cost').textContent = cost;
+  document.getElementById('share-odds').textContent = odds;
+  document.getElementById('share-towin').textContent = toWin;
+  document.getElementById('modal-share').style.display = 'flex';
+}
+
+function openDeposit() {
+  document.getElementById('modal-deposit').style.display = 'flex';
+}
+
+function openWithdraw() {
+  document.getElementById('modal-withdraw').style.display = 'flex';
+}
+
+function closeModal(id, event) {
+  if (!event || event.target === document.getElementById(id)) {
+    document.getElementById(id).style.display = 'none';
+  }
 }
 </script>
 </body></html>
